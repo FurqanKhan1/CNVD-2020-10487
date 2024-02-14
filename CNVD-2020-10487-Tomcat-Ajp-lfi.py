@@ -260,7 +260,7 @@ class Tomcat(object):
 		self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		self.socket.connect((target_host, target_port))
 		if sys.version_info < (3, 0):
-			self.stream = self.socket.makefile("rb", bufsize=0)
+			self.stream = self.socket.makefile("rb", buffering=None)
 		else:
 			self.stream = self.socket.makefile("rb", buffering=None)
 
@@ -303,6 +303,6 @@ _,data = t.perform_request('/asdf',attributes=[
     ])
 print('----------------------------')
 if sys.version_info < (3, 0):
-	print("".join([d.data for d in data]))
+	print(b"".join([d.data for d in data]).decode("UTF-8"))
 else:
 	print(b"".join([d.data for d in data]).decode("UTF-8"))
